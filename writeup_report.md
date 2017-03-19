@@ -106,7 +106,7 @@ Here are the histogram of images before and after clean.
 
 Then I collected recovering images (around 3k center images), and trained the model with these new images. The vehicle still went off track, and sometimes drove towards the side of road because it picked up the behavior of the moment when it drove towards the side while the recovering data was collected.
 
-I thought the data is not enough, so I preprocessed images: flipping images to double the total number of images, and cropping images (cut off top 75 pixels, and bottom 25 pixels) The vehicle could stay on track most of the time, but it swung when the speed went beyond 16.
+I thought the data is not enough, so I preprocessed images: flipping images to double the total number of images, and cropping images (cut off top 75 pixels, and bottom 25 pixels). Take this example
 
 ![Before Flipping](./images/flip-before.png "Before Flipping")
 ![After Flipping](./images/flip-after.png "After Flipping")
@@ -115,7 +115,7 @@ Here is its cropped image.
 
 ![Cropped](./images/cropped.png "Cropped")
 
-At this point, my training data had 10k images. I thought I still didn't have enough data, so I added images from the left camera and right camera with augmented steering angle (left augmented with `0.15`, and right `-0.15`)
+The vehicle could stay on track most of the time, but it swung when the speed went beyond 16. At this point, my training data had 10k images. I thought I still didn't have enough data, so I added images from the left camera and right camera with augmented steering angle (left augmented with `0.15`, and right `-0.15`)
 
 The model was then trained with 44k images in total, split out 25% as validation test set for each epoch. Training was done in 4 epochs. Keras always reported small loss and validation loss, but the vehicle still sometimes went off the track on high speed (speed > 20). So I realized I needed to improve the model.
 
