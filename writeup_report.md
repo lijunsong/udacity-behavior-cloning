@@ -97,13 +97,25 @@ Here are the overall training process:
 
 Initially the model was derived from Lenet, trained with all center images provided by Udacity. The result was that vehicle always went straight.
 
-After exploring the data, I found that the given data has too many images with steering angle 0, so that could be the reason. I cleaned 20%~50% of the total center images that had steering angle 0. The vehicle sometimes went out of track.
+After exploring the data, I found that the given data has too many images with steering angle 0, so that could be the reason. I cleaned 20%~50% of the total center images that had steering angle 0. With these cleaned data, the vehicle performed much better, but still sometimes went out of track.
+
+Here are the histogram of images before and after clean.
+
+![Histogram of data](./images/origin-data-histo.png "Histogram of data")
+![Filtering small angles](./images/steering0-cleaned-half.png "Filtering small angles")
 
 Then I collected recovering images (around 3k center images), and trained the model with these new images. The vehicle still went off track, and sometimes drove towards the side of road because it picked up the behavior of the moment when it drove towards the side while the recovering data was collected.
 
 I thought the data is not enough, so I preprocessed images: flipping images to double the total number of images, and cropping images (cut off top 75 pixels, and bottom 25 pixels) The vehicle could stay on track most of the time, but it swung when the speed went beyond 16.
 
-At this point, my training data had 10k images. I thought I still didn't have enough data, so I added images from the left camera and right camera with shifted given steering angle.
+![Before Flipping](./images/flip-before.png "Before Flipping")
+![After Flipping](./images/flip-after.png "After Flipping")
+
+Here is its cropped image.
+
+![Cropped](./images/cropped.png "Cropped")
+
+At this point, my training data had 10k images. I thought I still didn't have enough data, so I added images from the left camera and right camera with augmented steering angle (left augmented with `0.15`, and right `-0.15`)
 
 The model was then trained with 44k images in total, split out 25% as validation test set for each epoch. Training was done in 4 epochs. Keras always reported small loss and validation loss, but the vehicle still sometimes went off the track on high speed (speed > 20). So I realized I needed to improve the model.
 
